@@ -1,0 +1,59 @@
+1 -- Donation per State
+    select
+        Donation_Data.state,
+        ROUND(sum(Donation_Data.donation),0) AS Donation_per_state
+    FROM Donation_Data
+    	join Donor_Data2
+    	ON Donation_Data.id = Donor_Data2.id
+        GROUP BY Donation_Data.state
+    order by sum(Donation_Data.donation) desc
+    LIMIT 10;
+    
+2 -- Weekly Donation Frequency per state
+    select
+        Donation_Data.state,
+        count(donation_frequency) AS Weekly_Donation_Frequenc_Count
+    FROM Donation_Data
+    join Donor_Data2
+    ON Donation_Data.id = Donor_Data2.id
+    WHERE donation_frequency = "Weekly"
+    Group BY state, donation_frequency
+    ORDER BY count(donation_frequency) DESC
+    LIMIT 5;
+    
+ 3   -- California Donation per Gender
+    select
+        gender,
+        count(donation_frequency) AS Weekly_Donation_Frequenc_Count
+    FROM Donation_Data
+    join Donor_Data2
+    ON Donation_Data.id = Donor_Data2.id
+    WHERE state = "California" AND donation_frequency = "Weekly"
+    Group BY gender, donation_frequency
+    ORDER BY count(donation_frequency) DESC
+    LIMIT 5;
+    
+    
+4    -- Donation per Industry
+    
+select
+        job_field,
+        gender,
+        sum(donation) AS total_donation
+    FROM Donation_Data
+    join Donor_Data2
+    ON Donation_Data.id = Donor_Data2.id
+    WHERE state = "California" AND donation_frequency = "Weekly"
+    Group BY gender, job_field
+    ORDER BY sum(donation) DESC;
+    
+5  -- Lowest donation per State
+    select
+        Donation_Data.state,
+        sum(Donation_Data.donation) AS Donation_per_state
+    FROM Donation_Data
+    	join Donor_Data2
+    	ON Donation_Data.id = Donor_Data2.id
+        GROUP BY Donation_Data.state
+    order by sum(Donation_Data.donation)
+    LIMIT 5;
